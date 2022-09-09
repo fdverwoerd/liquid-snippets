@@ -1,0 +1,24 @@
+{% comment %}
+    If you need to iterate over items, let's say footer links.
+    Because you only want to fill the second,third and fourt column with a link. And always put an empty column in first 'column.
+
+    Modulo to the rescue!
+    @see: https://en.wikipedia.org/wiki/Modulo_operation
+
+    When forloop.index reaches 3. 3 modulo 3 equals 0. Then add empty column, et voila!
+
+{% endcomment %}
+<div class="row">
+    {% for link in footer.links %}
+        <div class="column md-12 xl-3">
+            {% include "includes/modules/simple_link", simple_link: link %}
+        </div>
+        {% comment %}
+            Make sure that every third a filler column is placed... PS-1192
+        {% endcomment %}
+        {% assign mod3 = forloop.index | modulo: 3 %}
+        {% if mod3 == 0 %}
+            <div class="column md-12 xl-3"></div>
+        {% endif %}
+    {% endfor %}
+</div>
