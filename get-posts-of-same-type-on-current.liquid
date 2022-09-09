@@ -1,0 +1,13 @@
+{% assign checkPostTypeArray = 'article,event' | split: ',' %}
+{% if checkPostTypeArray contains post.content_type.name %}
+    {% assign posts = site[post.content_type.plural_name] %}
+{% endif %}
+
+{% if post.content_type.name == 'event' %}
+    {% assign now = "now" | date: "%s" %}
+    {% assign posts = posts | sort: 'start_date' | where: 'start_date', now, '>' | where: 'id', post.id, '!=' %}
+{% endif %}
+
+{% for link in posts limit: 5 %}
+    <a href="{{ link.url }}">{{ link.title }}</a>
+{% endfor %}

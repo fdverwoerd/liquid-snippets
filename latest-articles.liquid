@@ -1,0 +1,9 @@
+{% comment %}
+    Show latest articles but not current post.
+{% endcomment %}
+<div class="latest">
+    {% assign articles = site.articles | where: 'id', post.id, '!=' %}
+    {% for o in articles limit: 3 %}
+        {% include 'includes/modules/card', card: o, show_description: false %}
+    {% endfor %}
+</div>

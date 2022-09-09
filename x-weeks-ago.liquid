@@ -1,0 +1,10 @@
+{% assign dateStart = post.published_at | date: '%s' %}
+{% assign nowTimestamp = 'now' | date: '%s' %}
+{% assign diffSeconds = nowTimestamp | minus: dateStart %}
+{% assign diffDays = diffSeconds | divided_by: 3600 | divided_by: 24 %}
+{%- if diffDays >= 7 -%}
+    {% assign diffDays = diffDays | divided_by: 7 | round %}
+    {{ diffDays }} weeks ago
+{%- else -%}
+    {{ diffDays }} days ago
+{%- endif -%}

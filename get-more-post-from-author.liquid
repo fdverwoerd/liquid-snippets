@@ -1,0 +1,10 @@
+{% assign author = post.author.first %}
+{% assign authorArticles = site.articles | where: 'id', post.id, '!=' | where: 'author', author, 'contains' %}
+{% if authorArticles.size > 0 %}
+    <p class="more-articles-from">More articles from {{ author.schema_name }}:</p>
+    <div class="author-more-articles">
+        {% for o in authorArticles %}
+            <a href="{{ o.url }}" class="read-more">{{ o.title }}</a>
+        {% endfor %}
+    </div>
+{% endif %}

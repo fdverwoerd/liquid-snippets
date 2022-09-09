@@ -1,0 +1,17 @@
+{% comment %}
+    Check if current item is "new".
+    Returns boolean: is_new
+
+    Use result if true to set a label.
+{% endcomment %}
+{%- assign is_new = false -%}
+{%- assign now =  "now" | date: '%s'  | times: 1 -%}
+{%- assign publishedDate = item.published_at | date: '%s' -%}
+{%- assign show = now | minus: publishedDate -%}
+{% comment %}
+14 days;
+14*24*60*60=1209600
+{% endcomment %}
+{%- if show < 1209600 -%}
+    {%- assign is_new = true -%}
+{%- endif -%}

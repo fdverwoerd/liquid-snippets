@@ -1,0 +1,42 @@
+{% comment %}
+    Create 'flat' array, as in not a nested array.
+{% endcomment %}
+{% assign postArray = [] %}
+{% comment %}
+    Add homepage.
+{% endcomment %}
+{% assign postArray = postArray | push: site.pages.index %}
+{%- for toc_item in site.toc_items -%}
+    {% comment %}
+        First check if this item has sub_toc_items.
+    {% endcomment %}
+    {% if toc_item.sub_toc_items != blank %}
+        {% for sub_toc_item in toc_item.sub_toc_items %}
+            {% assign postArray = postArray | push: sub_toc_item.page.first %}
+        {% endfor %}
+    {% endif %}
+{%- endfor -%}
+
+{%- for item in postArray -%}
+    {% assign nextIndex  = forloop.index0 | plus: 1 %}
+    {% assign next = postArray[nextIndex] %}
+    {%- if item.url == request.path -%}
+        {%- break -%}
+    {%- endif -%}
+    {% assign prev = item %}
+{%- endfor -%}
+
+<div class="container">
+    <div class="footer-inner">
+        {%- if prev -%}
+            <a class="footer-prev" href="{{prev.url}}" title="{{prev.title}}">
+                < Previous
+            </a>
+        {%- endif -%}
+        {%- if next -%}
+            <a class="c" href="{{next.url}}" title="{{next.title}}">
+                Next >
+            </a>
+        {%- endif -%}
+    </div>
+</div>
